@@ -57,8 +57,8 @@ const events: Array<EventType> = [
 
 export function MeetingList() {
    return (
-      <Grid container gap={2} justifySelf="center">
-         {events.map((event) => <MeetingListItem key={nanoid()} eventItem={event}/>)}
+      <Grid container spacing={2} justifySelf="center">
+         {events.map((event) => <Grid item xs={12} sm={6} lg={4} xl={3} key={nanoid()}><MeetingListItem eventItem={event}/></Grid>)}
       </Grid>
    );
 }
