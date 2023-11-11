@@ -1,6 +1,6 @@
 import img from "~/assets/images/companyImg.jpg";
 import { Grid } from "@mui/material";
-import { MeetingListItem } from "~/features/MeetingRoomListMain/MeetingList/MeetingListItem";
+import { MeetingListItem } from "./MeetingListItem";
 
 export type EventType = {
   name: string;

@@ -31,7 +31,7 @@ export const getToken = (): string | null => {
    const data = localStorage.getItem(TOKEN_KEY)
    if (!data) return null;
    const token: StoredToken = JSON.parse(data);
-   if (!isExpired(token.timeStamp)) {
+   if (isExpired(token.timeStamp)) {
       removeToken();
       return null;
    }

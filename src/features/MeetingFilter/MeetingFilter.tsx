@@ -1,27 +1,6 @@
 import { Autocomplete, Grid, TextField } from "@mui/material";
-
-const companies = [
-   { label: "Company1", value: "Company1" },
-   { label: "Company2", value: "Company2" },
-   { label: "Company3", value: "Company3" },
-   { label: "Company4", value: "Company4" },
-   { label: "Company5", value: "Company5" },
-   { label: "Company6", value: "Company6" },
-   { label: "Company7", value: "Company7" },
-   { label: "Company8", value: "Company8" },
-   { label: "Company9", value: "Company9" },
-];
-
-const offices = [
-   { label: "Office1", value: "Office1" },
-   { label: "Office2", value: "Office2" },
-   { label: "Office3", value: "Office3" },
-   { label: "Office4", value: "Office4" },
-   { label: "Office5", value: "Office5" },
-   { label: "Office6", value: "Office6" },
-   { label: "Office7", value: "Office7" },
-   { label: "Office8", value: "Office8" },
-];
+import { OrganizationType } from "~/services/backend/getListOfOrganizations.ts";
+import { OfficeType } from "~/services/backend/getOfficeList.ts";
 
 const cities = [
    { label: "City1", value: "City1" },
@@ -34,21 +13,39 @@ const cities = [
    { label: "City8", value: "City8" },
 ];
 
-export function MeetingFilter() {
+interface MeetingFilterProps {
+   selectCompany: (company: OrganizationType) => void;
+   selectOffice: (office: OfficeType) => void;
+   companies: Array<OrganizationType>;
+   offices?: Array<OfficeType>;
+   cities?: Array<string>;
+}
+
+export function MeetingFilter({selectCompany, selectOffice, companies, offices}: MeetingFilterProps) {
+   console.log(offices);
    return (
       <Grid container spacing={2} sx={{ my: 4 }}>
          <Grid item xs={6} sm={3}>
             <Autocomplete
                sx={{ backgroundColor: "primary", width: "100%" }}
                options={companies}
+               getOptionLabel={(option) => option.name}
                renderInput={( params ) => <TextField {...params} label="Компания"/>}
+               /*eslint-disable*/
+               // @ts-ignore
+               onChange={(event, value) => {value !== null ? selectCompany(value) : undefined}}
             />
          </Grid>
          <Grid item xs={6} sm={3}>
             <Autocomplete
                sx={{ backgroundColor: "primary", width: "100%" }}
-               options={offices}
+               disabled={ offices === undefined || Object.keys(offices).length === 0}
+               options={ offices !== undefined ? offices : []}
+               getOptionLabel={(option) => option.name}
                renderInput={( params ) => <TextField {...params} label="Офис"/>}
+               /*eslint-disable*/
+               // @ts-ignore
+               onChange={(event, value) => {value !== null ? selectOffice(value) : undefined}}
             />
          </Grid>
          <Grid item xs={6} sm={3}>

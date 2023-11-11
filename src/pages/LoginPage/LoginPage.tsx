@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, FormControl, TextField } from "@mui/material";
 import { FormEvent, useEffect, useState } from "react";
 import styles from "./loginpage.module.css";
 import { loginReq } from "~/services/backend/loginReq.ts";
@@ -7,7 +7,6 @@ import { getToken, setToken } from "~/utils/tokenToLocalStorage.ts";
 
 export function LoginPage() {
    const navigate = useNavigate();
-   // const [cookies, setCookie, removeCookie] = useCookies(["token"]);
    const [ login, setLogin ] = useState<string>("");
    const [ password, setPassword ] = useState<string>("");
 
@@ -16,9 +15,9 @@ export function LoginPage() {
       if (token) {
          navigate("../meetings");
       }
-   }, []);
+   });
 
-   const handleSubmit = async (e: FormEvent) => {
+   const handleSubmit = async ( e: FormEvent ) => {
       e.preventDefault();
       const loginData = await loginReq(login, password);
       if (!loginData) {
@@ -27,9 +26,9 @@ export function LoginPage() {
          console.log("something went wrong 2");
       } else {
          setToken(loginData.jwt);
-         navigate("../meetings")
+         navigate("../meetings");
       }
-   }
+   };
 
    return (
       <Box
@@ -39,12 +38,15 @@ export function LoginPage() {
          minHeight="100vh"
       >
          <Box className={styles.loginBox}>
-            <form style={{width: "300px"}} onSubmit={handleSubmit}>
-               <TextField sx={{mb: 2}} value={login} variant="filled" type="email" placeholder="email*" onChange={(e) => setLogin(e.target.value)} required={true}/>
-               <TextField sx={{mb: 2}} value={password} variant="filled" placeholder="password*" type="password"
-                          onChange={(e) => setPassword(e.target.value)}
-                          required={true}/>
-               <Button variant="contained">Войти</Button>
+            <form style={{ width: "300px" }} onSubmit={handleSubmit}>
+               <FormControl>
+                  <TextField sx={{ mb: 2 }} value={login} variant="filled" type="email" placeholder="email*"
+                             onChange={( e ) => setLogin(e.target.value)} required={true}/>
+                  <TextField sx={{ mb: 2 }} value={password} variant="filled" placeholder="password*" type="password"
+                             onChange={( e ) => setPassword(e.target.value)}
+                             required={true}/>
+                  <Button variant="contained" type="submit">Войти</Button>
+               </FormControl>
             </form>
          </Box>
       </Box>
