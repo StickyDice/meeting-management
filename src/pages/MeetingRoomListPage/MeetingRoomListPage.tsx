@@ -15,7 +15,7 @@ export function MeetingRoomListPage() {
    const [ cities, setCities ] = useState<Array<string>>([]);
    const [ selectedCompany, setSelectedCompany ] = useState<OrganizationType>({} as OrganizationType);
    const [ selectedOffice, setSelectedOffice ] = useState<OfficeType | null>(null);
-   const [ selectedCity, setSelectedCity ] = useState<string>("");
+   const [ selectedCity, setSelectedCity ] = useState<string | null>(null);
    const [status, setStatus] = useState<boolean | undefined>();
    useEffect(() => {
       const token = getToken();
@@ -30,7 +30,7 @@ export function MeetingRoomListPage() {
 
    useEffect(() => {
       if (Object.keys(selectedCompany).length !== 0) {
-         getOfficeList(selectedCompany.id, selectedCity).then(officeList => {
+         getOfficeList(selectedCompany.id, selectedCity === null ? "" : selectedCity).then(officeList => {
             setOffices(officeList.offices);
             setCities(officeList.cities);
          });
@@ -45,7 +45,7 @@ export function MeetingRoomListPage() {
    return (
       <>
          <Header/>
-         <Container sx={{ p: "0 40px" }}>
+         <Container sx={{ p: "0 40px 40px" }}>
             <MeetingFilter
                companies={companies}
                offices={offices}
@@ -56,12 +56,13 @@ export function MeetingRoomListPage() {
                changeStatus={onStatusChange}
                status={status}
                city={selectedCity}
+               selectedOffice={selectedOffice}
             />
             {selectedOffice === null
                ?
                <Typography component="h2">Выберите офис</Typography>
                :
-               <MeetingList/>
+               <MeetingList officeId={selectedOffice.id}/>
             }
          </Container>
       </>
