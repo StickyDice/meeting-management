@@ -15,7 +15,7 @@ function App() {
             <ThemeProvider theme={MUIBreakpoints}>
                <Box>
                   <Routes>
-                     <Route path="/" element={<Navigate to="/meetings"/>}/>
+                     <Route path="/" element={<Navigate to="/login"/>}/>
                      <Route path="/login" element={<LoginPage/>}/>
                      <Route path="/meetings" element={<MeetingRoomListPage/>}/>
                      <Route path="/meetings/office/:id" element={<OfficeInfoPage/>}/>
