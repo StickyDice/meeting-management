@@ -15,5 +15,5 @@ export type OfficeType = {
 }
 
 export const getOfficeList = async ( id: number, city?: string ) => {
-   return await myFetch(URL + new URLSearchParams({ id: String(id), city: city ? city : "" }), {}) as OfficeType;
+   return await myFetch(URL + new URLSearchParams({ id: String(id), city: city ? city : "" }), {}) as OfficeArrayType;
 };
