@@ -23,25 +23,42 @@ const offices = [
    { label: "Office8", value: "Office8" },
 ];
 
+const cities = [
+   { label: "City1", value: "City1" },
+   { label: "City2", value: "City2" },
+   { label: "City3", value: "City3" },
+   { label: "City4", value: "City4" },
+   { label: "City5", value: "City5" },
+   { label: "City6", value: "City6" },
+   { label: "City7", value: "City7" },
+   { label: "City8", value: "City8" },
+];
+
 export function MeetingFilter() {
    return (
-      <Grid container sx={{ mb: 4, gap: "10px" }}>
-         <Grid item xs={12} sm={6} lg={2}>
+      <Grid container spacing={2} sx={{ my: 4 }}>
+         <Grid item xs={6} sm={3}>
             <Autocomplete
                sx={{ backgroundColor: "primary", width: "100%" }}
                options={companies}
                renderInput={( params ) => <TextField {...params} label="Компания"/>}
             />
          </Grid>
-         <Grid item xs={12} sm={6} lg={2}>
+         <Grid item xs={6} sm={3}>
             <Autocomplete
-               disabled={true}
                sx={{ backgroundColor: "primary", width: "100%" }}
                options={offices}
                renderInput={( params ) => <TextField {...params} label="Офис"/>}
             />
          </Grid>
-         <Grid item xs={12} sm={6} lg={2}>
+         <Grid item xs={6} sm={3}>
+            <Autocomplete
+               sx={{ backgroundColor: "primary", width: "100%" }}
+               options={cities}
+               renderInput={( params ) => <TextField {...params} label="Город"/>}
+            />
+         </Grid>
+         <Grid item xs={6} sm={3}>
             <Autocomplete
                sx={{ backgroundColor: "primary", width: "100%" }}
                options={[ { label: "Активные" }, { label: "Неактивные" } ]}
