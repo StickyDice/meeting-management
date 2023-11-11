@@ -6,6 +6,12 @@ export function LoginPage() {
    const [ login, setLogin ] = useState<string>("");
    const [ password, setPassword ] = useState<string>("");
 
+   /* 
+      FIXME: Мне кажется тут не надо делать эти две отдельные функции
+      Вместо них можно было бы просто написать:
+      <TextField onChange={(e)=>setLogin(e.target.value)} ...
+      Плюс когда пишешь так, как сверху, не нужна типизация евента (она сама подставляется)
+   */
    const handleLoginInput = ( e: ChangeEvent<HTMLInputElement> ) => {
       setLogin(e.target.value);
    };
