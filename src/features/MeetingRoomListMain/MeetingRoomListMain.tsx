@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 
 export function MeetingRoomListMain() {
    return (
-      <Grid sx={{p: "0 40px"}}>
+      <Grid sx={{p: "0 40px 40px"}}>
          <MeetingFilter/>
          <MeetingList/>
       </Grid>

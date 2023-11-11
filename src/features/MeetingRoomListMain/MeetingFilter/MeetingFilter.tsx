@@ -35,6 +35,7 @@ export function MeetingFilter() {
          </Grid>
          <Grid item xs={12} sm={6} lg={2}>
             <Autocomplete
+               disabled={true}
                sx={{ backgroundColor: "primary", width: "100%" }}
                options={offices}
                renderInput={( params ) => <TextField {...params} label="Офис"/>}

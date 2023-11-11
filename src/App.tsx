@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "~/store/store.ts";
 import { LoginPage } from "~/pages/LoginPage";
 import { MUIBreakpoints } from "~/assets/themes/MUIBreakpoints.ts";
+import { OfficeInfoPage } from "~/pages/OfficeInfoPage";
 
 function App() {
    return (
@@ -14,9 +15,10 @@ function App() {
             <ThemeProvider theme={MUIBreakpoints}>
                <Box>
                   <Routes>
-                     <Route path="*" element={<Navigate to="/meetings"/>}/>
+                     <Route path="/" element={<Navigate to="/meetings"/>}/>
                      <Route path="/login" element={<LoginPage/>}/>
                      <Route path="/meetings" element={<MeetingRoomListPage/>}/>
+                     <Route path="/meetings/office/:id" element={<OfficeInfoPage/>}/>
                   </Routes>
                </Box>
             </ThemeProvider>
