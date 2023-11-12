@@ -32,6 +32,7 @@ export function MyModal( { title, handleSubmit, values, isOpen, setIsOpen, butto
    // eslint-disable-next-line
    // @ts-ignore
    const handleClose = ( e: MouseEvent ) => { // eslint-disable-line
+      e.preventDefault();
       setIsOpen(false);
    };
 
@@ -56,16 +57,16 @@ export function MyModal( { title, handleSubmit, values, isOpen, setIsOpen, butto
                            время: {`${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`}</Typography>
                         <TextField className={styles.width} onChange={(e) => {setName(e.target.value)}} value={values?.name} label={"Название мероприятия"}/>
                         <TextField className={styles.width} onChange={(e) => {setDescr(e.target.value)}} value={values?.description} label={"Описание"}/>
-                        <DateTimePicker className={styles.width} onChange={(e) => {setStart(e ? e.toString() : "")}} ampm={false} value={values?.start ? dayjs(values?.start) : undefined}
+                        <DateTimePicker className={styles.width} onChange={(e) => {setStart(e ? e.toString() : "")}} ampm={false} value={values?.start ? dayjs(values?.start) : null}
                                         label={"Начало брони"}/>
-                        <DateTimePicker className={styles.width} onChange={(e) => {setEnd(e ? e.toString() : "")}} ampm={false} value={values?.start ? dayjs(values?.start) : undefined}
+                        <DateTimePicker className={styles.width} onChange={(e) => {setEnd(e ? e.toString() : "")}} ampm={false} value={values?.end ? dayjs(values?.end) : null}
                                         label={"Конец брони"}/>
                         <Box className={styles.width} display={"flex"} gap={1} sx={{ width: "100%" }}>
-                           <TextField label={"Повторяемость события каждые"}  value={values?.freq.interval}
+                           <TextField label={"Повторяемость события каждые"} onChange={(e) => {setFreq({rule: values ? values.freq.rule : "", interval: e.target.value})}} value={values?.freq.interval}
                                       sx={{ flexGrow: 1 }}/>
                            <Autocomplete
-                              disabled={values?.freq.interval === 0}
-                              onChange={(e) => {setFreq({rule: e.target.value, interval: values ? values.freq.interval : 0})}}
+                              disabled={values?.freq.interval === 0 || values?.freq.interval === ""}
+                              onChange={(e, value) => {setFreq({rule: value ? value.value as "" | "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY" : "", interval: values ? values.freq.interval : 0})}}
                               sx={{ flexGrow: 1 }}
                               options={autoCompleteOptions}
                               value={autoCompleteOptions.find(option => option.value === values?.freq.rule)}

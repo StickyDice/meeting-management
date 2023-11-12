@@ -32,6 +32,11 @@ export function BookModal( { status }: { status: boolean } ) {
             disabled={!status}
          >Забронировать</Button>
          <MyModal
+            setDescr={setDescr}
+            setName={setEventName}
+            setEnd={setEnd}
+            setFreq={setFreq}
+            setStart={setStart}
             buttonText={"Забронировать"}
             title={"Забронировать"}
             handleSubmit={handleSubmit}
@@ -47,7 +52,6 @@ export function BookModal( { status }: { status: boolean } ) {
                end: end,
                freq: freq,
             }}
-
          />
       </>
    );
