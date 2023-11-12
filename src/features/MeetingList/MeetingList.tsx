@@ -19,7 +19,6 @@ export function MeetingList( { officeId }: MeetingListProps ) {
    useEffect(() => {
       getOfficeRoomList(officeId).then(res => {setRoomList(res)});
    }, []);
-   console.log(roomList)
    return ( <Grid container spacing={2} justifySelf="center">
          {roomList && roomList.map(( room ) => ( <Grid item xs={12} sm={6} lg={4} xl={3} key={room.id}>
                <MeetingListItem {...room}/>

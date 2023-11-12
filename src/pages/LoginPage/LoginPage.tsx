@@ -23,6 +23,7 @@ export function LoginPage() {
       if (!loginData) {
          console.log("something went wrong");
       } else if (!loginData.status) {
+         console.log(loginData)
          console.log("something went wrong 2");
       } else {
          setToken(loginData.jwt);
