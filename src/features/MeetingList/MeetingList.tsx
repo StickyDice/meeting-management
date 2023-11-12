@@ -17,7 +17,9 @@ interface MeetingListProps {
 export function MeetingList( { officeId }: MeetingListProps ) {
   const [roomList, setRoomList] = useState<OfficeRoomsType | null>(null);
    useEffect(() => {
-      getOfficeRoomList(officeId).then(res => {setRoomList(res)});
+      getOfficeRoomList(officeId).then(res => {
+         console.log(res)
+         setRoomList(res)});
    }, []);
    return ( <Grid container spacing={2} justifySelf="center">
          {roomList && roomList.map(( room ) => ( <Grid item xs={12} sm={6} lg={4} xl={3} key={room.id}>

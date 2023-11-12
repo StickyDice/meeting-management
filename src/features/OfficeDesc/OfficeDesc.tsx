@@ -1,8 +1,9 @@
 import styles from "./officedesc.module.css";
-import { Button, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { DescText } from "./DescText";
 import { useContext } from "react";
 import { RoomContext } from "~/context/RoomContext.ts";
+import { BookModal } from "~/features/BookModal";
 
 export function OfficeDesc() {
    const {photo, status} = useContext(RoomContext);
@@ -15,10 +16,7 @@ export function OfficeDesc() {
             <DescText/>
          </Grid>
          <Grid item xs={2}>
-            <Button
-               variant={"contained"}
-               disabled={!status}
-            >Забронировать</Button>
+            <BookModal status={status}/>
          </Grid>
       </Grid>
    );

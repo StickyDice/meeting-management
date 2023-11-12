@@ -46,7 +46,7 @@ export function EditModal( { children, disabled, eventId }: {
             <IconButton disabled={disabled} onClick={( e ) => setIsOpen(true)}>{children}</IconButton>
          </Tooltip>
          <>
-            {eventData !== null && <MyModal values={eventData} title={"Изменить данные"} handleSubmit={handleSubmit} isOpen={isOpen}
+            {eventData !== null && <MyModal buttonText={"Изменить"} values={eventData} title={"Изменить данные"} handleSubmit={handleSubmit} isOpen={isOpen}
                                             setIsOpen={setIsOpen}></MyModal>}
          </>
       </>
