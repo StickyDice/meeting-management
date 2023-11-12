@@ -5,11 +5,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { getMyEvents, MyEventsType } from "~/services/backend/getMyEvents.ts";
 import { getToken } from "~/utils/tokenToLocalStorage.ts";
 import { useNavigate } from "react-router-dom";
-import { EditModal } from "~/components/EditModal";
+import { EditModal } from "~/features/EditModal";
 import { useEffect, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
+// import { MyModal } from "~/components/MyModal";
 
 export function EventsTable() {
    const navigate = useNavigate();
@@ -42,10 +42,10 @@ export function EventsTable() {
                <TableBody>
                   {eventList.map(event => <TableRow key={event.id}>
                      <TableCell sx={{ borderRight: 1 }}>{event.name}</TableCell>
-                     <TableCell sx={{ borderRight: 1 }}><DateTimePicker value={dayjs(event.start)}/></TableCell>
-                     <TableCell sx={{ borderRight: 1 }}><DateTimePicker value={dayjs(event.end)}/></TableCell>
+                     <TableCell sx={{ borderRight: 1 }}><DateTimePicker disabled ampm={false} value={dayjs(event.start)}/></TableCell>
+                     <TableCell sx={{ borderRight: 1 }}><DateTimePicker disabled ampm={false} value={dayjs(event.end)}/></TableCell>
                      <TableCell>
-                        <EditModal>
+                        <EditModal eventId={String(event.id)} disabled={event.role === "participant"}>
                            <EditIcon/>
                         </EditModal>
                      </TableCell>
