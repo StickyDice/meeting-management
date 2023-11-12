@@ -1,0 +1,26 @@
+.width {
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    padding: 20px 40px;
+    background-color: #fff;
+}
+
+.modalContainer {
+    position: absolute;
+    top: calc(50% - 300px);
+    left: calc(50% - 300px);
+    max-width: 600px;
+    max-height: 470px;
+    width: 100%;
+}
+
+.modalTitle {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}

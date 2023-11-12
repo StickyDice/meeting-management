@@ -1,23 +1,34 @@
 import { Box, Button, FormControl, TextField } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import styles from "./loginpage.module.css";
+import { loginReq } from "~/services/backend/loginReq.ts";
+import { useNavigate } from "react-router-dom";
+import { getToken, setToken } from "~/utils/tokenToLocalStorage.ts";
 
 export function LoginPage() {
+   const navigate = useNavigate();
    const [ login, setLogin ] = useState<string>("");
    const [ password, setPassword ] = useState<string>("");
 
-   /* 
-      FIXME: Мне кажется тут не надо делать эти две отдельные функции
-      Вместо них можно было бы просто написать:
-      <TextField onChange={(e)=>setLogin(e.target.value)} ...
-      Плюс когда пишешь так, как сверху, не нужна типизация евента (она сама подставляется)
-   */
-   const handleLoginInput = ( e: ChangeEvent<HTMLInputElement> ) => {
-      setLogin(e.target.value);
-   };
+   useEffect(() => {
+      const token = getToken();
+      if (token) {
+         navigate("../meetings");
+      }
+   });
 
-   const handlePasswordInput = ( e: ChangeEvent<HTMLInputElement> ) => {
-      setPassword(e.target.value);
+   const handleSubmit = async ( e: FormEvent ) => {
+      e.preventDefault();
+      const loginData = await loginReq(login, password);
+      if (!loginData) {
+         console.log("something went wrong");
+      } else if (!loginData.status) {
+         console.log(loginData)
+         console.log("something went wrong 2");
+      } else {
+         setToken(loginData.jwt);
+         navigate("../meetings");
+      }
    };
 
    return (
@@ -28,13 +39,16 @@ export function LoginPage() {
          minHeight="100vh"
       >
          <Box className={styles.loginBox}>
-            <FormControl style={{width: "300px"}}>
-               <TextField sx={{mb: 2}} value={login} variant="filled" type="email" placeholder="email*" onChange={handleLoginInput} required={true}/>
-               <TextField sx={{mb: 2}} value={password} variant="filled" placeholder="password*" type="password"
-                          onChange={handlePasswordInput}
-                          required={true}/>
-               <Button variant="contained">Войти</Button>
-            </FormControl>
+            <form style={{ width: "300px" }} onSubmit={handleSubmit}>
+               <FormControl>
+                  <TextField sx={{ mb: 2 }} value={login} variant="filled" type="email" placeholder="email*"
+                             onChange={( e ) => setLogin(e.target.value)} required={true}/>
+                  <TextField sx={{ mb: 2 }} value={password} variant="filled" placeholder="password*" type="password"
+                             onChange={( e ) => setPassword(e.target.value)}
+                             required={true}/>
+                  <Button variant="contained" type="submit">Войти</Button>
+               </FormControl>
+            </form>
          </Box>
       </Box>
    );

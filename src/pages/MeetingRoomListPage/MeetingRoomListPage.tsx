@@ -1,31 +1,70 @@
-// import styles from "./meetingroomlistpage.module.css";
-
 import { Header } from "~/components/Header";
-import { MeetingRoomListMain } from "~/features/MeetingRoomListMain";
+import { Container, Typography } from "@mui/material";
+import { MeetingFilter } from "~/features/MeetingFilter";
+import { MeetingList } from "~/features/MeetingList";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getListOfOrganizations, OrganizationType } from "~/services/backend/getListOfOrganizations.ts";
+import { getToken } from "~/utils/tokenToLocalStorage.ts";
+import { getOfficeList, OfficeType } from "~/services/backend/getOfficeList.ts";
 
 export function MeetingRoomListPage() {
+   const navigate = useNavigate();
+   const [ companies, setCompanies ] = useState<Array<OrganizationType>>([]);
+   const [ offices, setOffices ] = useState<Array<OfficeType> | undefined>(undefined);
+   const [ cities, setCities ] = useState<Array<string>>([]);
+   const [ selectedCompany, setSelectedCompany ] = useState<OrganizationType>({} as OrganizationType);
+   const [ selectedOffice, setSelectedOffice ] = useState<OfficeType | null>(null);
+   const [ selectedCity, setSelectedCity ] = useState<string | null>(null);
+   const [status, setStatus] = useState<boolean | undefined>();
+   useEffect(() => {
+      const token = getToken();
+      if (!token) {
+         navigate("../login");
+      } else {
+         getListOfOrganizations(token).then(orgList => {
+            setCompanies(orgList);
+         });
+      }
+   }, []);
 
-   /* FIXME: Почему ты решил сразу все вынести в features? 
-      Оставил бы тут размету типа : 
+   useEffect(() => {
+      if (Object.keys(selectedCompany).length !== 0) {
+         getOfficeList(selectedCompany.id, selectedCity === null ? "" : selectedCity).then(officeList => {
+            setOffices(officeList.offices);
+            setCities(officeList.cities);
+         });
+      }
+   }, [ selectedCompany, selectedCity ]);
 
-      <Container sx={{p: "0 40px"}}>
-         <MeetingFilter/>
-         <MeetingList/>
-      </Container>
+   const onStatusChange = () => {
+      setCompanies(companies.filter(company => company.status !== status));
+      setStatus(!status);
+   }
 
-      Тебе потом будет неудобно работать с данными, связанными с этой страницей.
-      Когда придется объявлять запросы / состояния и т.д. здесь и потом их пробрасывать 
-         через пропсы в твой компонент features
-      Короче поправь!)
-      Сделай тут разметку как я выше показал, и эти два компонента сделай в
-         features/MeetingFilter и features/MeetingList
-      Если че, обсудим потом в дсе 
-   */
-  
    return (
       <>
          <Header/>
-         <MeetingRoomListMain/>
+         <Container sx={{ p: "0 40px 40px" }}>
+            <MeetingFilter
+               companies={companies}
+               offices={offices}
+               cities={cities}
+               selectCompany={setSelectedCompany}
+               selectOffice={setSelectedOffice}
+               selectCity={setSelectedCity}
+               changeStatus={onStatusChange}
+               status={status}
+               city={selectedCity}
+               selectedOffice={selectedOffice}
+            />
+            {selectedOffice === null
+               ?
+               <Typography component="h2">Выберите офис</Typography>
+               :
+               <MeetingList officeId={selectedOffice.id}/>
+            }
+         </Container>
       </>
    );
 }

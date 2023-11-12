@@ -5,7 +5,10 @@
     flex-shrink: 0;
 }
 
-
+.dlkafdslfkdsafm{
+    display: flex;
+    justify-content: space-between;
+}
 
 .eventImg {
     width: 100%;
